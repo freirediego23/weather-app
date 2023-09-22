@@ -1,0 +1,57 @@
+.main-container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  flex: 1 1 auto;
+  color: #dddddd;
+}
+
+.cards {
+  /* display: flex; Add this line */
+  flex-direction: column; /* Add this line */
+
+  align-items: center;
+  width: 100%;
+}
+.small-card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.small-icon {
+  width: 100px;
+}
+
+.small-card {
+  color: white;
+  background-color: #1f203a;
+  text-align: center;
+  width: 200px;
+}
+
+.small-card p {
+  text-align: center;
+}
+
+.big-card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.big-card p {
+  color: #dddddd;
+}
+
+.content {
+  text-align: left;
+  color: white;
+}
+
+.lower-card {
+  width: 100%;
+}

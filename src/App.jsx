@@ -2,13 +2,15 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import Display from "./components/Display";
+import getWeather from "./services/getWeather";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { data, city, demo, handleSubmit } = getWeather();
 
   return (
     <>
-      <h3>hola</h3>
+      <Display def={demo} weather={data} fnSubmit={handleSubmit}></Display>
     </>
   );
 }
