@@ -6,8 +6,11 @@
 }
 
 .info {
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
+  flex: 1;
   color: #dddddd;
+  background-color: #1e213a;
+  height: 100%;
 }
 
 .cards {
@@ -25,6 +28,10 @@
 
 .small-icon {
   width: 100px;
+}
+
+.icon-img {
+  width: 80px;
 }
 
 .small-card {
@@ -54,4 +61,8 @@
 
 .lower-card {
   width: 100%;
+}
+
+.newcol {
+  background-color: #feec64;
 }

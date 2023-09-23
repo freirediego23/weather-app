@@ -6,11 +6,16 @@ import Display from "./components/Display";
 import getWeather from "./services/getWeather";
 
 function App() {
-  const { data, city, demo, handleSubmit } = getWeather();
+  const { data, five, demo, handleSubmit } = getWeather();
 
   return (
     <>
-      <Display def={demo} weather={data} fnSubmit={handleSubmit}></Display>
+      <Display
+        def={demo}
+        weather={data}
+        fnSubmit={handleSubmit}
+        fives={five}
+      ></Display>
     </>
   );
 }
