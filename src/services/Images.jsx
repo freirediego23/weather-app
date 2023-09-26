@@ -58,7 +58,7 @@ function Images({ condition }) {
       iconUrl = Clear; // Replace with a default icon URL
       break;
   }
-  return <img src={iconUrl} alt={condition} />;
+  return <img className="icon-img" src={iconUrl} alt={condition} />;
 }
 
 export default Images;

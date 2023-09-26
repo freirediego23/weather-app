@@ -6,6 +6,8 @@ function getWeather() {
   const [demo, setDemo] = useState(null);
   const [five, setFive] = useState(null);
   const [city, setCity] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
+  const [error, setError] = useState(null);
 
   const getData = async (url, setDato) => {
     const res = await fetch(url);
@@ -14,6 +16,23 @@ function getWeather() {
     console.log(datos);
     setDato(datos);
   };
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          getData(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=29ccc5e04463e920ab568d1c65d2d52c`,
+            setUserLocation
+          );
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+        }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +80,7 @@ function getWeather() {
     setCity(cityName);
   };
 
-  return { demo, data, five, handleSubmit };
+  return { userLocation, demo, data, five, handleSubmit };
 }
 
 export default getWeather;

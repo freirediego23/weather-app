@@ -6,7 +6,7 @@ import Display from "./components/Display";
 import getWeather from "./services/getWeather";
 
 function App() {
-  const { data, five, demo, handleSubmit } = getWeather();
+  const { userLocation, data, five, demo, handleSubmit } = getWeather();
 
   return (
     <>
@@ -15,6 +15,7 @@ function App() {
         weather={data}
         fnSubmit={handleSubmit}
         fives={five}
+        myLocation={userLocation}
       ></Display>
     </>
   );

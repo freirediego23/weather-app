@@ -1,11 +1,14 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import "./display.css";
+
 import fourDays from "../services/fourDays";
 import Images from "../services/Images";
+import Background from "../img/Cloud-background.png";
+import MapIcon from "../img/location.svg";
+import Target from "../img/target.svg";
 
-
-function Display({ weather, fnSubmit, def, fives }) {
+function Display({ myLocation, weather, fnSubmit, def, fives }) {
   const currentDate = new Date();
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthNames = [
@@ -29,12 +32,22 @@ function Display({ weather, fnSubmit, def, fives }) {
   const month = monthNames[currentDate.getMonth()];
 
   const condition0 = fives?.list[2]?.weather[0]?.description;
-
   const condition1 = fives?.list[4]?.weather[0]?.description;
   const condition2 = fives?.list[12]?.weather[0]?.description;
   const condition3 = fives?.list[20]?.weather[0]?.description;
   const condition4 = fives?.list[28]?.weather[0]?.description;
   const condition5 = fives?.list[36]?.weather[0]?.description;
+
+  const [userloc, setUserLoc] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const dates = fourDays;
@@ -42,7 +55,6 @@ function Display({ weather, fnSubmit, def, fives }) {
   }, []);
 
   if (!weather) {
-    // Render a loading state or error message
     return (
       <div>
         <p>Loading weather data...</p>
@@ -50,37 +62,81 @@ function Display({ weather, fnSubmit, def, fives }) {
     );
   }
 
-  console.log(def);
+  const userLock = () => {
+    setUserLoc(myLocation);
+  };
+
   return (
     <div>
-      <form onSubmit={fnSubmit}>
-        <input type="text" name="cityName" />
-        <button type="submit">Buscar</button>
-      </form>
       <main className="main-container">
-        <div className="info">
-          {condition0 ? (
-            <Images condition={condition0} />
-          ) : (
-            <Images condition={condition0} />
+        <div className="info ">
+          {/* LEFT SIDE MODAL */}
+
+          {isModalOpen && (
+            <div className="left-side-modal">
+              <div className="modal-content">
+                <form onSubmit={fnSubmit}>
+                  <input type="text" name="cityName" />
+                  <button className="buscar" type="submit">
+                    Search
+                  </button>
+                </form>
+                <button onClick={closeModal} className="close-button">
+                  X
+                </button>
+              </div>
+            </div>
           )}
 
-          <h1>
-            {weather && weather.main && weather.main.temp
-              ? (weather.main.temp - 273.15).toFixed(2) + "°C"
-              : "London"}
-          </h1>
-          <p>
-            {weather && weather.weather && weather.weather[0]
-              ? weather.weather[0].description
-              : "Clear Sky"}
-          </p>
+          <div className="button-container">
+            <button onClick={openModal} type="button">
+              Search for places
+            </button>{" "}
+            <img
+              onClick={userLock}
+              className="target-icon"
+              src={Target}
+              alt=""
+            />
+          </div>
+          <img className="back-img2" src={Background} alt="background" />
+          <div className="back-img">
+            {condition0 ? (
+              <div className="centered-content">
+                <Images condition={condition0} />
+              </div>
+            ) : (
+              <div className="centered-content">
+                <Images condition={condition0} />
+              </div>
+            )}
+          </div>
+          <div className="data-cont">
+            <h1>
+              {weather && weather.main && weather.main.temp
+                ? (weather.main.temp - 273.15).toFixed(2)
+                : 28}
+              <span className="sp1">°C</span>
+            </h1>
+            <p>
+              {weather && weather.weather && weather.weather[0]
+                ? weather.weather[0].description
+                : userloc?.weather[0]?.description}
+            </p>
 
-          <span>
-            Today . {day}, {dayNumber} {month}{" "}
-          </span>
-          <p>{!weather ? def.base : weather.name}</p>
+            <span>
+              Today . {day}, {dayNumber} {month}{" "}
+            </span>
+            <div className="bot-city">
+              <img className="map-icon" src={MapIcon} alt="city-icon" />
+              <p className="city-name">
+                {!weather ? userloc?.name : weather.name}
+              </p>
+            </div>
+          </div>
         </div>
+
+        {/* SMALL WEATHER BOXES */}
         <div className="main-card-container">
           <div className="cards">
             <div className="small-card-container">
@@ -95,7 +151,7 @@ function Display({ weather, fnSubmit, def, fives }) {
                   <Images condition={condition0} />
                 )}
 
-                <div className="cesius">
+                <div className="celsius">
                   <span>
                     {fives
                       ? (fives?.list[4]?.main?.temp_max - 273.15).toFixed(2) +
@@ -119,7 +175,7 @@ function Display({ weather, fnSubmit, def, fives }) {
                   <Images condition={condition0} />
                 )}
 
-                <div className="cesius">
+                <div className="celsius">
                   <span>
                     {fives
                       ? (fives?.list[12]?.main?.temp_max - 273.15).toFixed(2) +
@@ -143,7 +199,7 @@ function Display({ weather, fnSubmit, def, fives }) {
                   <Images condition={condition0} />
                 )}
 
-                <div className="cesius">
+                <div className="celsius">
                   <span>
                     {fives
                       ? (fives?.list[20]?.main?.temp_max - 273.15).toFixed(2) +
@@ -166,7 +222,7 @@ function Display({ weather, fnSubmit, def, fives }) {
                   <Images condition={condition0} />
                 )}
 
-                <div className="cesius">
+                <div className="celsius">
                   <span>
                     {fives
                       ? (fives?.list[28]?.main?.temp_max - 273.15).toFixed(2) +
@@ -189,7 +245,7 @@ function Display({ weather, fnSubmit, def, fives }) {
                   <Images condition={condition0} />
                 )}
 
-                <div className="cesius">
+                <div className="celsius">
                   <span>
                     {fives
                       ? (fives?.list[36]?.main?.temp_max - 273.15).toFixed(2) +
@@ -207,6 +263,7 @@ function Display({ weather, fnSubmit, def, fives }) {
               </div>
             </div>
 
+            {/* TODAY'S HIGHLIGHTS SECTION **********/}
             <div className="lower-card">
               <div className="content">
                 <h4>Today's Highlights</h4>
@@ -232,6 +289,11 @@ function Display({ weather, fnSubmit, def, fives }) {
                     </span>
                     %
                   </p>
+                  <div className="rownumb">
+                    <p>0</p>
+                    <p>50</p>
+                    <p>100</p>
+                  </div>
                   <div className="progress">
                     <div
                       className="progress-bar newcol"
